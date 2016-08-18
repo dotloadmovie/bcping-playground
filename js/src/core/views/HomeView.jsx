@@ -6,7 +6,7 @@ class HomeView extends React.Component{
 
     }
 
-    
+
     render(){
 
         return <h1>Hello, world from Dave</h1>

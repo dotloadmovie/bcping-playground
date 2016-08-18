@@ -1,3 +1,8 @@
+/**
+ * @class CoinModel
+ * @extends BaseModel
+ */
+
 import BaseModel from './BaseModel.js';
 
 export default class CoinModel extends BaseModel{

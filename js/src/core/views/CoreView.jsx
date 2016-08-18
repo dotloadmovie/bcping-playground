@@ -1,3 +1,7 @@
+/**
+ * @class CoreView
+ */
+
 import HomeView from './HomeView.jsx';
 
 export default class CoreView {
@@ -12,7 +16,9 @@ export default class CoreView {
 
     render(){
 
-        $(this.config.el).html(this.template);
+        $(this.config.el).find('#container').remove();
+
+        $(this.config.el).append(this.template);
 
         this.createHomeView();
 

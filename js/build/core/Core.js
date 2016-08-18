@@ -1,6 +1,10 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * @class CoreController
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
+
 var _CoreView = require('./views/CoreView.jsx');
 
 var _CoreView2 = _interopRequireDefault(_CoreView);
@@ -13,27 +17,68 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var CoreController = function CoreController() {
-    _classCallCheck(this, CoreController);
+var CoreController = function () {
+    function CoreController() {
+        _classCallCheck(this, CoreController);
 
-    var core;
+        Radio('navigation:channel').subscribe(this.handleRouteRequest.bind(this));
 
-    var coinModel = new _CoinModel2.default();
+        this.setRoutes();
+    }
 
-    var fetchingData = coinModel.getData();
+    _createClass(CoreController, [{
+        key: 'handleRouteRequest',
+        value: function handleRouteRequest(route) {
 
-    $.when(fetchingData).done(function (status) {
+            console.log(route);
+        }
+    }, {
+        key: 'overrideDefaultView',
+        value: function overrideDefaultView() {
 
-        if (status) {
-            core = new _CoreView2.default({
-                model: coinModel,
-                el: 'body'
+            this.router.navigate('/home');
+        }
+    }, {
+        key: 'loadHomeView',
+        value: function loadHomeView() {
+
+            var coreView;
+
+            var coinModel = new _CoinModel2.default();
+
+            var fetchingData = coinModel.getData();
+
+            $.when(fetchingData).done(function (status) {
+
+                if (status) {
+                    coreView = new _CoreView2.default({
+                        model: coinModel,
+                        el: 'body'
+                    });
+
+                    coreView.render();
+                }
+            }.bind(this));
+        }
+    }, {
+        key: 'loadSettingsView',
+        value: function loadSettingsView() {}
+    }, {
+        key: 'setRoutes',
+        value: function setRoutes() {
+
+            this.router = new Grapnel({
+                pushState: true
             });
 
-            core.render();
+            this.router.get('/home', this.loadHomeView.bind(this));
+            this.router.get('/settings', this.loadSettingsView.bind(this));
+            this.router.get('', this.overrideDefaultView.bind(this));
         }
-    }.bind(this));
-};
+    }]);
+
+    return CoreController;
+}();
 
 var coreController = new CoreController();
 
@@ -44,7 +89,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * @class CoreView
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
 
 var _HomeView = require('./HomeView.jsx');
 
@@ -67,7 +114,9 @@ var CoreView = function () {
         key: 'render',
         value: function render() {
 
-            $(this.config.el).html(this.template);
+            $(this.config.el).find('#container').remove();
+
+            $(this.config.el).append(this.template);
 
             this.createHomeView();
         }
@@ -204,7 +253,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @class CoinModel
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @extends BaseModel
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 var CoinModel = function (_BaseModel) {
     _inherits(CoinModel, _BaseModel);

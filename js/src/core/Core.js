@@ -1,3 +1,7 @@
+/**
+ * @class CoreController
+ */
+
 import CoreView from './views/CoreView.jsx';
 import CoinModel from '../models/CoinModel';
 
@@ -5,7 +9,27 @@ class CoreController{
 
     constructor(){
 
-        var core;
+        Radio('navigation:channel').subscribe(this.handleRouteRequest.bind(this));
+
+        this.setRoutes();
+
+    }
+
+    handleRouteRequest(route){
+
+        console.log(route);
+
+    }
+
+    overrideDefaultView(){
+
+        this.router.navigate('/home');
+
+    }
+
+    loadHomeView(){
+
+        var coreView;
 
         var coinModel = new CoinModel();
 
@@ -14,16 +38,35 @@ class CoreController{
         $.when(fetchingData).done(function(status){
 
             if(status){
-                core = new CoreView({
+                coreView = new CoreView({
                     model: coinModel,
                     el:  'body'
                 });
 
-                core.render();
+                coreView.render();
             }
 
 
         }.bind(this));
+
+    }
+
+    loadSettingsView(){
+
+
+
+    }
+
+    setRoutes(){
+
+        this.router = new Grapnel({
+            pushState: true
+        });
+
+
+        this.router.get('/home', this.loadHomeView.bind(this));
+        this.router.get('/settings', this.loadSettingsView.bind(this));
+        this.router.get('', this.overrideDefaultView.bind(this));
 
     }
 
