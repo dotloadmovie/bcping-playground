@@ -5,4 +5,8 @@ requirejs.config({
     }
 });
 
-requirejs(['app']);
+requirejs(['vendor/jquery'], function($){
+
+    requirejs(['app']);
+
+});
