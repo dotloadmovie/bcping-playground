@@ -38,7 +38,12 @@ export default class CoinModel extends BaseModel{
 
             type: 'GET',
 
-            url: '/ext/sample_service.php'
+            beforeSend: function (request){
+                
+                request.setRequestHeader('X-Mashape-Key', window.BCPing.mashapeKey);
+            },
+
+            url: 'https://montanaflynn-bitcoin-exchange-rate.p.mashape.com/prices/spot_rate?currency=USD'
 
         });
 

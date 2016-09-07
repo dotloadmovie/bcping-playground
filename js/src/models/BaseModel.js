@@ -16,6 +16,7 @@ export default class BaseModel{
 
         $.ajax({
 
+            beforeSend: config.beforeSend || function(){},
             url: config.url,
             type: config.type || 'GET',
             data: JSON.stringify(config.data),

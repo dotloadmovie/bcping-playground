@@ -28,10 +28,7 @@ var CoreController = function () {
 
     _createClass(CoreController, [{
         key: 'handleRouteRequest',
-        value: function handleRouteRequest(route) {
-
-            console.log(route);
-        }
+        value: function handleRouteRequest(route) {}
     }, {
         key: 'overrideDefaultView',
         value: function overrideDefaultView() {
@@ -236,6 +233,7 @@ var BaseModel = function () {
 
             $.ajax({
 
+                beforeSend: config.beforeSend || function () {},
                 url: config.url,
                 type: config.type || 'GET',
                 data: JSON.stringify(config.data),
@@ -317,7 +315,12 @@ var CoinModel = function (_BaseModel) {
 
                 type: 'GET',
 
-                url: '/ext/sample_service.php'
+                beforeSend: function beforeSend(request) {
+
+                    request.setRequestHeader('X-Mashape-Key', window.BCPing.mashapeKey);
+                },
+
+                url: 'https://montanaflynn-bitcoin-exchange-rate.p.mashape.com/prices/spot_rate?currency=USD'
 
             });
 
@@ -358,11 +361,7 @@ var FooterView = function (_React$Component) {
         key: "render",
         value: function render() {
 
-            return React.createElement(
-                "div",
-                { className: "footer" },
-                "Footer here..."
-            );
+            return React.createElement("div", { className: "footer" });
         }
     }]);
 

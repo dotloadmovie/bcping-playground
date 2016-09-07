@@ -18,7 +18,7 @@ requirejs.config({
     }
 });
 
-requirejs(['vendor/jquery', 'vendor/radio.min', 'react', 'react-dom', 'grapnel'], function($, Radio, React, ReactDOM, Grapnel){
+requirejs(['vendor/jquery', 'vendor/radio.min', 'react', 'react-dom', 'grapnel', 'config'], function($, Radio, React, ReactDOM, Grapnel, Config){
 
     window.React = React;
     window.ReactDOM = ReactDOM;

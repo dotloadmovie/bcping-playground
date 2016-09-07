@@ -7,7 +7,7 @@ export default class FooterView extends React.Component{
     render(){
 
         return (
-            <div className="footer">Footer here...</div>
+            <div className="footer"></div>
         )
 
     }

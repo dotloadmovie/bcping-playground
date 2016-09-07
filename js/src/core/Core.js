@@ -17,7 +17,6 @@ class CoreController{
 
     handleRouteRequest(route){
 
-        console.log(route);
 
     }
 
