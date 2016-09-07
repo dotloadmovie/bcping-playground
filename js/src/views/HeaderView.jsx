@@ -13,7 +13,7 @@ export default class HeaderView extends React.Component{
     render(){
 
         return (
-            <div className="header">
+            <div className="header space-xlg-bottom">
                 <NavigationView data={this.props.data} />
                 <h1>Page Header</h1>
             </div>

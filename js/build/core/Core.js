@@ -50,6 +50,9 @@ var CoreController = function () {
                 if (status) {
                     coreView = new _CoreView2.default({
                         model: coinModel,
+                        personal: {
+                            high: 1000
+                        },
                         el: 'body'
                     });
 
@@ -83,7 +86,7 @@ var CoreController = function () {
 
 var coreController = new CoreController();
 
-},{"../models/CoinModel":5,"./views/CoreView.jsx":2}],2:[function(require,module,exports){
+},{"../models/CoinModel":6,"./views/CoreView.jsx":2}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -133,7 +136,7 @@ var CoreView = function () {
             ReactDOM.render(React.createElement(
                 'div',
                 { className: 'main-wrapper' },
-                React.createElement(_HomeView2.default, null)
+                React.createElement(_HomeView2.default, { current: parseFloat(this.config.model.data.amount), target: this.config.personal.high })
             ), $('#container')[0]);
         }
     }]);
@@ -143,7 +146,58 @@ var CoreView = function () {
 
 exports.default = CoreView;
 
-},{"./HomeView.jsx":3}],3:[function(require,module,exports){
+},{"./HomeView.jsx":4}],3:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var GraphView = function (_React$Component) {
+    _inherits(GraphView, _React$Component);
+
+    function GraphView() {
+        _classCallCheck(this, GraphView);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(GraphView).call(this));
+    }
+
+    _createClass(GraphView, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+
+            new Chartist.Pie('#core-graph', {
+                series: [parseInt(this.props.current), parseInt(this.props.target)]
+            }, {
+                donut: true,
+                donutWidth: 60,
+                startAngle: 270,
+                total: 1000,
+                showLabel: false
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+
+            return React.createElement("div", { className: "large-graph ct-square", id: "core-graph" });
+        }
+    }]);
+
+    return GraphView;
+}(React.Component);
+
+exports.default = GraphView;
+
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -159,6 +213,10 @@ var _HeaderView2 = _interopRequireDefault(_HeaderView);
 var _FooterView = require('./../../views/FooterView.jsx');
 
 var _FooterView2 = _interopRequireDefault(_FooterView);
+
+var _GraphView = require('./GraphView.jsx');
+
+var _GraphView2 = _interopRequireDefault(_GraphView);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -192,7 +250,7 @@ var HomeView = function (_React$Component) {
                 React.createElement(
                     'div',
                     { className: 'main-wrapper' },
-                    'body goes here'
+                    React.createElement(_GraphView2.default, { target: this.props.target, current: this.props.current })
                 ),
                 React.createElement(_FooterView2.default, null)
             );
@@ -204,7 +262,7 @@ var HomeView = function (_React$Component) {
 
 exports.default = HomeView;
 
-},{"./../../views/FooterView.jsx":6,"./../../views/HeaderView.jsx":7}],4:[function(require,module,exports){
+},{"./../../views/FooterView.jsx":7,"./../../views/HeaderView.jsx":8,"./GraphView.jsx":3}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -259,7 +317,7 @@ var BaseModel = function () {
 
 exports.default = BaseModel;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -333,7 +391,7 @@ var CoinModel = function (_BaseModel) {
 
 exports.default = CoinModel;
 
-},{"./BaseModel.js":4}],6:[function(require,module,exports){
+},{"./BaseModel.js":5}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -370,7 +428,7 @@ var FooterView = function (_React$Component) {
 
 exports.default = FooterView;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -410,7 +468,7 @@ var HeaderView = function (_React$Component) {
 
             return React.createElement(
                 "div",
-                { className: "header" },
+                { className: "header space-xlg-bottom" },
                 React.createElement(_NavigationView2.default, { data: this.props.data }),
                 React.createElement(
                     "h1",
@@ -426,7 +484,7 @@ var HeaderView = function (_React$Component) {
 
 exports.default = HeaderView;
 
-},{"./NavigationView.jsx":8}],8:[function(require,module,exports){
+},{"./NavigationView.jsx":9}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

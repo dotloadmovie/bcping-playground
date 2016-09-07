@@ -39,6 +39,9 @@ class CoreController{
             if(status){
                 coreView = new CoreView({
                     model: coinModel,
+                    personal:{
+                        high: 1000
+                    },
                     el:  'body'
                 });
 

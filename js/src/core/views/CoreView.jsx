@@ -30,7 +30,8 @@ export default class CoreView {
 
         this.homeView = React.createElement(this.homeViewComponent,{});
 
-        ReactDOM.render(<div className="main-wrapper"><HomeView /></div>, $('#container')[0]);
+
+        ReactDOM.render(<div className="main-wrapper"><HomeView current={parseFloat(this.config.model.data.amount)} target={this.config.personal.high} /></div>, $('#container')[0]);
 
     }
 

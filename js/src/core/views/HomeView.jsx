@@ -1,5 +1,6 @@
 import HeaderView from './../../views/HeaderView.jsx';
 import FooterView from './../../views/FooterView.jsx';
+import GraphView from './GraphView.jsx';
 
 class HomeView extends React.Component{
 
@@ -21,7 +22,9 @@ class HomeView extends React.Component{
         return (
             <div>
                 <HeaderView data={this.navigationItems} />
-                <div className="main-wrapper">body goes here</div>
+                <div className="main-wrapper">
+                    <GraphView target={this.props.target} current={this.props.current} />
+                </div>
                 <FooterView />
             </div>
         )
