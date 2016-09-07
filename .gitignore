@@ -4,3 +4,4 @@ node_modules
 .babelrc
 .idea
 .help
+js/config.js
