@@ -57,6 +57,12 @@ class CoreController{
 
     }
 
+    loadDetailView(){
+
+
+
+    }
+
     setRoutes(){
 
         this.router = new Grapnel({
@@ -66,6 +72,7 @@ class CoreController{
 
         this.router.get('/home', this.loadHomeView.bind(this));
         this.router.get('/settings', this.loadSettingsView.bind(this));
+        this.router.get('/detail', this.loadDetailView.bind(this));
         this.router.get('', this.overrideDefaultView.bind(this));
 
     }

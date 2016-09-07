@@ -64,6 +64,9 @@ var CoreController = function () {
         key: 'loadSettingsView',
         value: function loadSettingsView() {}
     }, {
+        key: 'loadDetailView',
+        value: function loadDetailView() {}
+    }, {
         key: 'setRoutes',
         value: function setRoutes() {
 
@@ -73,6 +76,7 @@ var CoreController = function () {
 
             this.router.get('/home', this.loadHomeView.bind(this));
             this.router.get('/settings', this.loadSettingsView.bind(this));
+            this.router.get('/detail', this.loadDetailView.bind(this));
             this.router.get('', this.overrideDefaultView.bind(this));
         }
     }]);
@@ -93,6 +97,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * @class CoreView
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
 
+
 var _HomeView = require('./HomeView.jsx');
 
 var _HomeView2 = _interopRequireDefault(_HomeView);
@@ -105,7 +110,7 @@ var CoreView = function () {
     function CoreView(config) {
         _classCallCheck(this, CoreView);
 
-        this.template = '<div id="container"></div>';
+        this.template = '<div id="container" class="container"></div>';
 
         this.config = config || {};
     }
@@ -126,11 +131,13 @@ var CoreView = function () {
 
             ReactDOM.unmountComponentAtNode($('#container')[0]);
 
-            this.homeViewComponent = new _HomeView2.default();
-
             this.homeView = React.createElement(this.homeViewComponent, {});
 
-            ReactDOM.render(React.createElement(_HomeView2.default, null), $('#container')[0]);
+            ReactDOM.render(React.createElement(
+                'div',
+                { className: 'main-wrapper' },
+                React.createElement(_HomeView2.default, null)
+            ), $('#container')[0]);
         }
     }]);
 
@@ -140,13 +147,23 @@ var CoreView = function () {
 exports.default = CoreView;
 
 },{"./HomeView.jsx":3}],3:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _HeaderView = require('./../../views/HeaderView.jsx');
+
+var _HeaderView2 = _interopRequireDefault(_HeaderView);
+
+var _FooterView = require('./../../views/FooterView.jsx');
+
+var _FooterView2 = _interopRequireDefault(_FooterView);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -160,17 +177,27 @@ var HomeView = function (_React$Component) {
     function HomeView() {
         _classCallCheck(this, HomeView);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(HomeView).call(this));
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(HomeView).call(this));
+
+        _this.navigationItems = [{ url: 'home', name: 'Home', current: true, icon: 'fa-home' }, { url: 'detail', name: 'Detail', icon: 'fa-bars' }, { url: 'settings', name: 'Settings', icon: 'fa-cogs' }];
+
+        return _this;
     }
 
     _createClass(HomeView, [{
-        key: "render",
+        key: 'render',
         value: function render() {
 
             return React.createElement(
-                "h1",
+                'div',
                 null,
-                "Hello, world from Dave"
+                React.createElement(_HeaderView2.default, { data: this.navigationItems }),
+                React.createElement(
+                    'div',
+                    { className: 'main-wrapper' },
+                    'body goes here'
+                ),
+                React.createElement(_FooterView2.default, null)
             );
         }
     }]);
@@ -180,7 +207,7 @@ var HomeView = function (_React$Component) {
 
 exports.default = HomeView;
 
-},{}],4:[function(require,module,exports){
+},{"./../../views/FooterView.jsx":6,"./../../views/HeaderView.jsx":7}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -303,4 +330,194 @@ var CoinModel = function (_BaseModel) {
 
 exports.default = CoinModel;
 
-},{"./BaseModel.js":4}]},{},[1]);
+},{"./BaseModel.js":4}],6:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FooterView = function (_React$Component) {
+    _inherits(FooterView, _React$Component);
+
+    function FooterView() {
+        _classCallCheck(this, FooterView);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(FooterView).call(this));
+    }
+
+    _createClass(FooterView, [{
+        key: "render",
+        value: function render() {
+
+            return React.createElement(
+                "div",
+                { className: "footer" },
+                "Footer here..."
+            );
+        }
+    }]);
+
+    return FooterView;
+}(React.Component);
+
+exports.default = FooterView;
+
+},{}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _NavigationView = require("./NavigationView.jsx");
+
+var _NavigationView2 = _interopRequireDefault(_NavigationView);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var HeaderView = function (_React$Component) {
+    _inherits(HeaderView, _React$Component);
+
+    function HeaderView(props) {
+        _classCallCheck(this, HeaderView);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(HeaderView).call(this, props));
+
+        _this.props = props;
+
+        return _this;
+    }
+
+    _createClass(HeaderView, [{
+        key: "render",
+        value: function render() {
+
+            return React.createElement(
+                "div",
+                { className: "header" },
+                React.createElement(_NavigationView2.default, { data: this.props.data }),
+                React.createElement(
+                    "h1",
+                    null,
+                    "Page Header"
+                )
+            );
+        }
+    }]);
+
+    return HeaderView;
+}(React.Component);
+
+exports.default = HeaderView;
+
+},{"./NavigationView.jsx":8}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var NavigationView = function (_React$Component) {
+    _inherits(NavigationView, _React$Component);
+
+    function NavigationView(props) {
+        _classCallCheck(this, NavigationView);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NavigationView).call(this, props));
+
+        _this.props = props;
+
+        return _this;
+    }
+
+    _createClass(NavigationView, [{
+        key: 'render',
+        value: function render() {
+
+            return React.createElement(
+                'nav',
+                null,
+                React.createElement(
+                    'ul',
+                    { className: 'nav nav-pills pull-right' },
+                    this.props.data.map(function (item) {
+
+                        return React.createElement(NavigationItemView, { data: item });
+                    })
+                )
+            );
+        }
+    }]);
+
+    return NavigationView;
+}(React.Component);
+
+exports.default = NavigationView;
+
+var NavigationItemView = function (_React$Component2) {
+    _inherits(NavigationItemView, _React$Component2);
+
+    function NavigationItemView(props) {
+        _classCallCheck(this, NavigationItemView);
+
+        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(NavigationItemView).call(this));
+
+        _this2.props = props;
+
+        return _this2;
+    }
+
+    _createClass(NavigationItemView, [{
+        key: 'render',
+        value: function render() {
+
+            var url = '/' + this.props.data.url;
+            var css = '';
+
+            var iconString = 'fa ' + this.props.data.icon;
+
+            if (this.props.data.current) {
+                css = 'active';
+            }
+
+            return React.createElement(
+                'li',
+                { role: 'presentation', title: this.props.data.name, className: css },
+                React.createElement(
+                    'a',
+                    { href: url },
+                    React.createElement('i', { className: iconString })
+                )
+            );
+        }
+    }]);
+
+    return NavigationItemView;
+}(React.Component);
+
+},{}]},{},[1]);

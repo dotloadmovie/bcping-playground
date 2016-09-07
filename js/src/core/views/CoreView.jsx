@@ -1,18 +1,18 @@
 /**
  * @class CoreView
  */
-
 import HomeView from './HomeView.jsx';
 
 export default class CoreView {
 
     constructor(config) {
 
-        this.template = '<div id="container"></div>';
+        this.template = '<div id="container" class="container"></div>';
 
         this.config = config || {};
 
     }
+
 
     render(){
 
@@ -28,11 +28,9 @@ export default class CoreView {
 
         ReactDOM.unmountComponentAtNode($('#container')[0]);
 
-        this.homeViewComponent = new HomeView();
-
         this.homeView = React.createElement(this.homeViewComponent,{});
 
-        ReactDOM.render(<HomeView />, $('#container')[0]);
+        ReactDOM.render(<div className="main-wrapper"><HomeView /></div>, $('#container')[0]);
 
     }
 

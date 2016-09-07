@@ -2,6 +2,7 @@ requirejs.config({
     baseUrl: './js',
     paths: {
         main: './js/main',
+        config: './config',
         react:  'vendor/react.min',
         'react-dom': 'vendor/react-dom.min',
         'grapnel': 'vendor/grapnel.min'
